@@ -8,8 +8,8 @@ matrix:
         env: 
           - GCC_ON_MACOS=1
           - CONAN_GCC_VERSIONS=8
-          - BREW_GCC="brew update && brew install --verbose gcc@8 && CC=gcc-8 && CXX=g++-8"
-          - SET_GCC_ENV="cd /usr/local/bin && sudo ln -s gcc-8 cc && sudo ln -s g++-8 c++ && cd -"
+          - BREW_GCC="brew update && brew install --verbose gcc@7 && CC=gcc-7 && CXX=g++-7"
+          - SET_GCC_ENV="cd /usr/local/bin && sudo ln -s gcc-7 cc && sudo ln -s g++-7 c++ && cd -"
           
 before_install:
   - if ! test -z $GCC_ON_MACOS; then echo "Installing GCC..." && eval ${BREW_GCC}; fi
@@ -23,6 +23,8 @@ install:
 
 
 script:
+  - pip install wheel
+  - pip install conan --upgrade
   - conan user
   - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
   - conan install qt/5.9.8@bincrafters/stable -s compiler=gcc -s compiler.version=7 -s compiler.libcxx=libstdc++ --build missing
