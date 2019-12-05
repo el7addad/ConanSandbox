@@ -1,0 +1,79 @@
+# Ant
+# Build your Java projects and run tests with Apache Ant.
+# Add steps that save build artifacts and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/java
+
+trigger:
+- master
+- azure-pipelines
+- release*
+- stable*
+- conan
+
+pr:
+- master
+
+strategy:
+  matrix:
+    macHighSierra:
+      imageName: "macos-10.13"
+      CONAN_APPLE_CLANG_VERSIONS: 10.0
+    macMojave:
+      imageName: "macos-10.14"
+      CONAN_APPLE_CLANG_VERSIONS: 11.0
+
+  maxParallel: 2
+
+pool:
+  vmImage: $(imageName)
+
+variables:
+  CONAN_USERNAME: "simcenter"
+  CONAN_LOGIN_USERNAME: "elhaddad"
+  CONAN_CHANNEL: "testing"
+  CONAN_UPLOAD: "https://api.bintray.com/conan/nheri-simcenter/simcenter"
+  CONAN_UPLOAD_ONLY_WHEN_STABLE: false
+  CONAN_STABLE_BRANCH_PATTERN: "release/*"
+
+steps:
+# Use Python version
+- task: UsePythonVersion@0
+  displayName: Switch to Python 3.7
+  inputs:
+    versionSpec: '3.7' 
+    addToPath: true 
+    architecture: 'x64'
+
+- script: |
+    pip install wheel
+    pip install conan --upgrade
+    brew gcc
+  displayName: Conan Installation
+  failOnStderr: false
+
+- script: |
+    pip install wheel
+    pip install conan --upgrade
+    brew update
+    brew install --verbose gcc@7
+    export CC=gcc-7
+    export CXX=g++-7
+    cd /usr/local/bin 
+    sudo ln -s gcc-8 cc
+    sudo ln -s g++-8 c++
+    cd -
+    gcc -v
+    g++ -v
+    cc -v
+    c++ -v
+  displayName: Conan & GCC Installation
+  failOnStderr: false
+  
+- script: |
+    conan user
+    conan install qt/5.9.8@bincrafters/stable --build missing
+    conan install qt/5.9.8@bincrafters/stable -o qt:qt3d=True -o qt:qtcharts=True --build missing
+  displayName: Conan Tests
+  failOnStderr: false
+  env:
+    CONAN_PASSWORD: $(ConanPassword)
