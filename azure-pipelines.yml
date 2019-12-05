@@ -47,13 +47,10 @@ steps:
 - script: |
     pip install wheel
     pip install conan --upgrade
-    brew gcc
   displayName: Conan Installation
   failOnStderr: false
 
 - script: |
-    pip install wheel
-    pip install conan --upgrade
     brew update
     brew install --verbose gcc@7
     export CC=gcc-7
@@ -66,7 +63,7 @@ steps:
     g++ -v
     cc -v
     c++ -v
-  displayName: Conan & GCC Installation
+  displayName: GCC Installation
   failOnStderr: false
   
 - script: |
