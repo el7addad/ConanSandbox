@@ -69,8 +69,8 @@ steps:
 - script: |
     conan user
     conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-    conan install qt/5.9.8@bincrafters/stable --build missing
-    conan install qt/5.9.8@bincrafters/stable -o qt:qt3d=True -o qt:qtcharts=True --build missing
+    conan install qt/5.9.8@bincrafters/stable -s compiler=gcc -s compiler.version=7 -s compiler.libcxx=libstdc++ --build missing
+    conan install qt/5.9.8@bincrafters/stable -s compiler=gcc -s compiler.version=7 -s compiler.libcxx=libstdc++ -o qt:qt3d=True -o qt:qtcharts=True --build missing
   displayName: Conan Tests
   failOnStderr: false
   env:
