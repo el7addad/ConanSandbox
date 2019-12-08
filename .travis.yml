@@ -21,6 +21,7 @@ before_install:
   - xcrun -sdk macosx --show-sdk-path
   - which gcc-7
   - which g++-7
+  - brew install boost@1.60 gcc@9 qt5
 #  - echo $PATH
 #  - sudo ln -f -s /usr/local/bin/gcc-7 /Applications/Xcode-10.1.app/Contents/Developer/usr/bin/gcc
 #  - sudo ln -f -s /usr/local/bin/gcc-7 /Applications/Xcode-10.1.app/Contents/Developer/usr/bin/cc
