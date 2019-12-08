@@ -29,7 +29,12 @@ script:
   - conan user
   - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
   - ls /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
-  - export QMAKE_MAC_SDK=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk
+  - export QMAKE_MAC_SDK=/Applications/Xcode-10.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk
   - conan install qt/5.11.3@bincrafters/stable -s compiler=gcc -s compiler.version=7 -s compiler.libcxx=libstdc++ --build missing
   - /Users/travis/.conan/data/qt/5.11.3/bincrafters/stable/source/qt5/configure -shared -confirm-license -nomake examples -nomake tests -prefix /Users/travis/.conan/data/qt/5.11.3/bincrafters/stable/package/21b96820675b48309c8fe7baef60b403e7780ccd -opensource -release -platform macx-g++ -qt-zlib
   - make
+  - cat /Users/travis/build/el7addad/ConanSandbox/.qmake.stash
+  - export QMAKE_MAC_SDK=/usr/local/Cellar/gcc@7
+  - /Users/travis/.conan/data/qt/5.11.3/bincrafters/stable/source/qt5/configure -shared -confirm-license -nomake examples -nomake tests -prefix /Users/travis/.conan/data/qt/5.11.3/bincrafters/stable/package/21b96820675b48309c8fe7baef60b403e7780ccd -opensource -release -platform macx-g++ -qt-zlib
+  - export QMAKE_MAC_SDK=/usr/local/Cellar/gcc@7/7.5.0
+  - /Users/travis/.conan/data/qt/5.11.3/bincrafters/stable/source/qt5/configure -shared -confirm-license -nomake examples -nomake tests -prefix /Users/travis/.conan/data/qt/5.11.3/bincrafters/stable/package/21b96820675b48309c8fe7baef60b403e7780ccd -opensource -release -platform macx-g++ -qt-zlib
