@@ -18,7 +18,7 @@ before_install:
   - g++ -v
   - cc -v
   - c++ -v
-  - xcode-select --install
+  - xcrun -sdk macosx --show-sdk-path
   
 install:
 
