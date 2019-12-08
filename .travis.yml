@@ -8,7 +8,7 @@ matrix:
         env: 
           - GCC_ON_MACOS=1
           - CONAN_GCC_VERSIONS=8
-          - BREW_GCC="brew update && brew install --verbose gcc@7 && CC=gcc-7 && CXX=g++-7"
+          - BREW_GCC="brew update && brew install --verbose gcc@7 && CC=/usr/local/bin/gcc-7 && CXX=/usr/local/bin/g++-7"
           - SET_GCC_ENV="cd /usr/local/bin && sudo ln -s gcc-7 cc && sudo ln -s g++-7 c++ && sudo ln -s gcc-7 gcc && sudo ln -s g++-7 g++ && cd -"
           
 before_install:
@@ -21,6 +21,7 @@ before_install:
   - xcrun -sdk macosx --show-sdk-path
   - which gcc-7
   - which g++-7
+  - echo $PATH
   
 install:
 
@@ -30,9 +31,9 @@ script:
   - pip install conan --upgrade
   - conan user
   - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-  - ls /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
-  - export QMAKE_MAC_SDK=/Applications/Xcode-10.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk
   - conan install qt/5.11.3@bincrafters/stable -s compiler=gcc -s compiler.version=7 -s compiler.libcxx=libstdc++ --build missing
+  - export QMAKE_CC=/usr/local/bin/gcc-7
+  - export QMAKE_CXX=/usr/local/bin/g++-7
   - /Users/travis/.conan/data/qt/5.11.3/bincrafters/stable/source/qt5/configure -shared -confirm-license -nomake examples -nomake tests -prefix /Users/travis/.conan/data/qt/5.11.3/bincrafters/stable/package/21b96820675b48309c8fe7baef60b403e7780ccd -opensource -release -platform macx-g++ -qt-zlib
   - cat /Users/travis/build/el7addad/ConanSandbox/.qmake.stash
   - make
