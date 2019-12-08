@@ -22,6 +22,16 @@ before_install:
   - which gcc-7
   - which g++-7
   - echo $PATH
+  - sudo ln -f -s /usr/local/bin/gcc-7 /Applications/Xcode-10.1.app/Contents/Developer/usr/bin/gcc
+  - sudo ln -f -s /usr/local/bin/gcc-7 /Applications/Xcode-10.1.app/Contents/Developer/usr/bin/cc
+  - sudo ln -f -s /usr/local/bin/g++-7 /Applications/Xcode-10.1.app/Contents/Developer/usr/bin/g++
+  - sudo ln -f -s /usr/local/bin/g++-7 /Applications/Xcode-10.1.app/Contents/Developer/usr/bin/c++
+  - sudo ln -f -s /usr/local/bin/gcc-ar-7 /Applications/Xcode-10.1.app/Contents/Developer/usr/bin/ar
+  - sudo ln -f -s /usr/local/bin/gcc-nm-7 /Applications/Xcode-10.1.app/Contents/Developer/usr/bin/nm
+  - sudo ln -f -s /usr/local/bin/gcc-ranlib-7 /Applications/Xcode-10.1.app/Contents/Developer/usr/bin/ranlib
+  - export QMAKE_CC=/usr/local/bin/gcc-7
+  - export QMAKE_CXX=/usr/local/bin/g++-7
+  
   
 install:
 
@@ -32,8 +42,6 @@ script:
   - conan user
   - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
   - conan install qt/5.11.3@bincrafters/stable -s compiler=gcc -s compiler.version=7 -s compiler.libcxx=libstdc++ --build missing
-  - export QMAKE_CC=/usr/local/bin/gcc-7
-  - export QMAKE_CXX=/usr/local/bin/g++-7
   - /Users/travis/.conan/data/qt/5.11.3/bincrafters/stable/source/qt5/configure -shared -confirm-license -nomake examples -nomake tests -prefix /Users/travis/.conan/data/qt/5.11.3/bincrafters/stable/package/21b96820675b48309c8fe7baef60b403e7780ccd -opensource -release -platform macx-g++ -qt-zlib
   - cat /Users/travis/build/el7addad/ConanSandbox/.qmake.stash
   - make
