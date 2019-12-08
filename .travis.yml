@@ -21,16 +21,16 @@ before_install:
   - xcrun -sdk macosx --show-sdk-path
   - which gcc-7
   - which g++-7
-  - echo $PATH
-  - sudo ln -f -s /usr/local/bin/gcc-7 /Applications/Xcode-10.1.app/Contents/Developer/usr/bin/gcc
-  - sudo ln -f -s /usr/local/bin/gcc-7 /Applications/Xcode-10.1.app/Contents/Developer/usr/bin/cc
-  - sudo ln -f -s /usr/local/bin/g++-7 /Applications/Xcode-10.1.app/Contents/Developer/usr/bin/g++
-  - sudo ln -f -s /usr/local/bin/g++-7 /Applications/Xcode-10.1.app/Contents/Developer/usr/bin/c++
-  - sudo ln -f -s /usr/local/bin/gcc-ar-7 /Applications/Xcode-10.1.app/Contents/Developer/usr/bin/ar
-  - sudo ln -f -s /usr/local/bin/gcc-nm-7 /Applications/Xcode-10.1.app/Contents/Developer/usr/bin/nm
-  - sudo ln -f -s /usr/local/bin/gcc-ranlib-7 /Applications/Xcode-10.1.app/Contents/Developer/usr/bin/ranlib
-  - export QMAKE_CC=/usr/local/bin/gcc-7
-  - export QMAKE_CXX=/usr/local/bin/g++-7
+#  - echo $PATH
+#  - sudo ln -f -s /usr/local/bin/gcc-7 /Applications/Xcode-10.1.app/Contents/Developer/usr/bin/gcc
+#  - sudo ln -f -s /usr/local/bin/gcc-7 /Applications/Xcode-10.1.app/Contents/Developer/usr/bin/cc
+#  - sudo ln -f -s /usr/local/bin/g++-7 /Applications/Xcode-10.1.app/Contents/Developer/usr/bin/g++
+#  - sudo ln -f -s /usr/local/bin/g++-7 /Applications/Xcode-10.1.app/Contents/Developer/usr/bin/c++
+#  - sudo ln -f -s /usr/local/bin/gcc-ar-7 /Applications/Xcode-10.1.app/Contents/Developer/usr/bin/ar
+#  - sudo ln -f -s /usr/local/bin/gcc-nm-7 /Applications/Xcode-10.1.app/Contents/Developer/usr/bin/nm
+#  - sudo ln -f -s /usr/local/bin/gcc-ranlib-7 /Applications/Xcode-10.1.app/Contents/Developer/usr/bin/ranlib
+#  - export QMAKE_CC=/usr/local/bin/gcc-7
+#  - export QMAKE_CXX=/usr/local/bin/g++-7
   
   
 install:
