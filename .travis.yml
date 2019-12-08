@@ -4,10 +4,10 @@ osx: &osx
 matrix:
    include:
       - <<: *osx
-        osx_image: xcode10.1
+        osx_image: xcode9.4
         env: 
           - GCC_ON_MACOS=1
-          - CONAN_GCC_VERSIONS=8
+          - CONAN_GCC_VERSIONS=7
           - BREW_GCC="brew update && brew install --verbose gcc@7 && CC=/usr/local/bin/gcc-7 && CXX=/usr/local/bin/g++-7"
           - SET_GCC_ENV="cd /usr/local/bin && sudo ln -s gcc-7 cc && sudo ln -s g++-7 c++ && sudo ln -s gcc-7 gcc && sudo ln -s g++-7 g++ && cd -"
           
