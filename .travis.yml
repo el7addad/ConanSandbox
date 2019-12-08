@@ -18,6 +18,7 @@ before_install:
   - g++ -v
   - cc -v
   - c++ -v
+  - xcode-select --install
   
 install:
 
