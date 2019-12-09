@@ -37,13 +37,11 @@ install:
 
 
 script:
-  - pip install wheel
-  - pip install conan --upgrade
-  - conan user
-  - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-  - conan install qt/5.11.3@bincrafters/stable -s compiler=gcc -s compiler.version=7 -s compiler.libcxx=libstdc++ --build missing
-  - /Users/travis/.conan/data/qt/5.11.3/bincrafters/stable/source/qt5/configure -shared -confirm-license -nomake examples -nomake tests -prefix /Users/travis/.conan/data/qt/5.11.3/bincrafters/stable/package/21b96820675b48309c8fe7baef60b403e7780ccd -opensource -release -platform macx-g++ -qt-zlib
-  - /Users/travis/.conan/data/qt/5.11.3/bincrafters/stable/source/qt5/qmake -query
-  - qmake -query
+  - wget https://download.qt.io/archive/qt/5.11/5.11.3/single/qt-everywhere-src-5.11.3.tar.xz
+  - tar -xzf qt-everywhere-src-5.11.3.tar.xz
+  - pwd
+  - ls
+  - ls qt-everywhere-src-5.11.3
+  - /Users/travis/qt-everywhere-src-5.11.3/configure -shared -confirm-license -nomake examples -nomake tests -prefix /Users/travis/qt5 -opensource -release -platform macx-g++ -qt-zlib
   - cat /Users/travis/build/el7addad/ConanSandbox/.qmake.stash
   - make
