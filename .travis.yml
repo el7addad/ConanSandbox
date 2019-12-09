@@ -42,6 +42,6 @@ script:
   - pwd
   - ls
   - ls qt-everywhere-src-5.11.3
-  - /Users/travis/build/el7addad/ConanSandbox/qt-everywhere-src-5.11.3/configure -shared -confirm-license -nomake examples -nomake tests -prefix /Users/travis/build/el7addad/ConanSandbox/qt5 -opensource -release -platform macx-g++ -qt-zlib
+  - /Users/travis/build/el7addad/ConanSandbox/qt-everywhere-src-5.11.3/configure -shared -confirm-license -nomake examples -nomake tests -prefix /Users/travis/build/el7addad/ConanSandbox/qt5 -opensource -release -qt-zlib
   - cat /Users/travis/build/el7addad/ConanSandbox/.qmake.stash
   - make
