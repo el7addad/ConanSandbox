@@ -15,14 +15,20 @@ pr:
 
 strategy:
   matrix:
+    linux:
+      imageName: "ubuntu-18.04"
+      CONAN_GCC_VERSIONS: 7
     macHighSierra:
       imageName: "macos-10.13"
       CONAN_APPLE_CLANG_VERSIONS: 10.0
     macMojave:
       imageName: "macos-10.14"
       CONAN_APPLE_CLANG_VERSIONS: 11.0
-
-  maxParallel: 2
+    windows:
+      imageName: "vs2017-win2016"
+      CONAN_VISUAL_VERSIONS: 15
+      CONAN_VISUAL_RUNTIMES: MD
+  maxParallel: 4
 
 pool:
   vmImage: $(imageName)
@@ -49,28 +55,13 @@ steps:
     pip install conan --upgrade
   displayName: Conan Installation
   failOnStderr: false
-
-- script: |
-    brew update
-    brew install --verbose gcc@7
-    export CC=gcc-7
-    export CXX=g++-7
-    cd /usr/local/bin 
-    sudo ln -s gcc-8 cc
-    sudo ln -s g++-8 c++
-    cd -
-    gcc -v
-    g++ -v
-    cc -v
-    c++ -v
-  displayName: GCC Installation
-  failOnStderr: false
   
 - script: |
     conan user
     conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-    conan install qt/5.11.3@bincrafters/stable -s compiler=gcc -s compiler.version=7 -s compiler.libcxx=libstdc++ --build missing
-    conan install qt/5.11.3@bincrafters/stable -s compiler=gcc -s compiler.version=7 -s compiler.libcxx=libstdc++ -o qt:qt3d=True -o qt:qtcharts=True --build missing
+    conan remote add simcenter https://api.bintray.com/conan/nheri-simcenter/simcenter
+    conan install qt/5.11.3@bincrafters/stable -o qt:qt3d=True -o qt:qtcharts=True --build missing
+    conan upload qt/5.11.3@bincrafters/stable --all -r simcenter -c
   displayName: Conan Tests
   failOnStderr: false
   env:
