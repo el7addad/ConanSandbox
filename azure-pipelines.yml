@@ -1,7 +1,3 @@
-# Ant
-# Build your Java projects and run tests with Apache Ant.
-# Add steps that save build artifacts and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
 trigger:
 - master
@@ -13,56 +9,57 @@ trigger:
 pr:
 - master
 
-strategy:
-  matrix:
-    linux:
-      imageName: "ubuntu-18.04"
-      CONAN_GCC_VERSIONS: 7
-    macHighSierra:
-      imageName: "macos-10.13"
-      CONAN_APPLE_CLANG_VERSIONS: 10.0
-    macMojave:
-      imageName: "macos-10.14"
-      CONAN_APPLE_CLANG_VERSIONS: 11.0
-    windows:
-      imageName: "vs2017-win2016"
-      CONAN_VISUAL_VERSIONS: 15
-      CONAN_VISUAL_RUNTIMES: MD
-  maxParallel: 4
+jobs:
+- job: ConanSandbox
+  displayName: "Running Conan Sandbox"
+  timeoutInMinutes: 0
 
-pool:
-  vmImage: $(imageName)
+  strategy:
+    matrix:
+      linux:
+        imageName: "ubuntu-18.04"
+        CONAN_GCC_VERSIONS: 7
+      macHighSierra:
+        imageName: "macos-10.13"
+        CONAN_APPLE_CLANG_VERSIONS: 10.0
+      macMojave:
+        imageName: "macos-10.14"
+        CONAN_APPLE_CLANG_VERSIONS: 11.0
+      windows:
+        imageName: "vs2017-win2016"
+        CONAN_VISUAL_VERSIONS: 15
+        CONAN_VISUAL_RUNTIMES: MD
+    maxParallel: 4
 
-variables:
-  CONAN_USERNAME: "simcenter"
-  CONAN_LOGIN_USERNAME: "elhaddad"
-  CONAN_CHANNEL: "testing"
-  CONAN_UPLOAD: "https://api.bintray.com/conan/nheri-simcenter/simcenter"
-  CONAN_UPLOAD_ONLY_WHEN_STABLE: false
-  CONAN_STABLE_BRANCH_PATTERN: "release/*"
+  pool:
+    vmImage: $(imageName)
 
-steps:
-# Use Python version
-- task: UsePythonVersion@0
-  displayName: Switch to Python 3.7
-  inputs:
-    versionSpec: '3.7' 
-    addToPath: true 
-    architecture: 'x64'
+  variables: 
+    - group: ConanVariables
 
-- script: |
-    pip install wheel
-    pip install conan --upgrade
-  displayName: Conan Installation
-  failOnStderr: false
-  
-- script: |
-    conan user
-    conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-    conan remote add simcenter https://api.bintray.com/conan/nheri-simcenter/simcenter
-    conan install qt/5.11.3@bincrafters/stable -o qt:qt3d=True -o qt:qtcharts=True -o qt:qttools=True --build missing
-    conan upload qt/5.11.3@bincrafters/stable --all -r simcenter -c
-  displayName: Conan Tests
-  failOnStderr: false
-  env:
-    CONAN_PASSWORD: $(ConanPassword)
+  steps:
+  # Use Python version
+  - task: UsePythonVersion@0
+    displayName: Switch to Python 3.7
+    inputs:
+      versionSpec: '3.7' 
+      addToPath: true 
+      architecture: 'x64'
+
+  - script: |
+      pip install wheel
+      pip install conan --upgrade
+    displayName: Conan Installation
+    failOnStderr: false
+    
+  - script: |
+      conan user
+      conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+      conan remote add simcenter https://api.bintray.com/conan/nheri-simcenter/simcenter
+      conan install qt/5.11.3@bincrafters/stable -o qt:qt3d=True -o qt:qtcharts=True -o qt:qttools=True --build missing
+      conan upload qt/5.11.3@bincrafters/stable --all -r simcenter -c
+    displayName: Conan Tests
+    failOnStderr: false
+    env:
+      CONAN_PASSWORD: $(BintrayAPIKey)
+      CONAN_LOGIN_USERNAME: $(BintrayUsername)
