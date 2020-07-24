@@ -56,8 +56,8 @@ jobs:
       conan user
       conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
       conan remote add simcenter https://api.bintray.com/conan/nheri-simcenter/simcenter
-      conan install qt/5.12.9@bincrafters/stable -o qt:qt3d=True -o qt:qtcharts=True -o qt:qttools=True -o qtwebengine=True -o qtwebchannel=True -o qtdeclarative=True --build missing
-      conan upload qt/5.12.9@bincrafters/stable --all -r simcenter -c
+      conan install qt/5.14.2@bincrafters/stable -o qt:qt3d=True -o qt:qtcharts=True -o qt:qttools=True -o qtwebengine=True -o qtwebchannel=True -o qtdeclarative=True --build missing
+      conan upload qt/5.14.2@bincrafters/stable --all -r simcenter -c
     displayName: Conan Tests
     failOnStderr: false
     env:
